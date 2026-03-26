@@ -58,6 +58,7 @@ import { toast } from "sonner";
 import CookieBanner from "./components/CookieBanner";
 import { INDUSTRIES, PRODUCTS, SERVICES, slugify } from "./data";
 import IndustryPage from "./pages/IndustryPage";
+import PartnersPage from "./pages/PartnersPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ProductPage from "./pages/ProductPage";
 import ServicePage from "./pages/ServicePage";
@@ -74,7 +75,7 @@ function useSectionReveal() {
           }
         }
       },
-      { threshold: 0.12 },
+      { threshold: 0.05, rootMargin: "0px 0px -30px 0px" },
     );
     for (const el of els) {
       observer.observe(el);
@@ -92,7 +93,8 @@ const NAV_LINKS = [
   { label: "Why SIMLABS?", href: "#why" },
   { label: "Customers", href: "#customers" },
   { label: "Projects", href: "#projects" },
-  { label: "Jobs", href: "#jobs" },
+  { label: "Careers", href: "#jobs" },
+  { label: "Partners", href: "/partners" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -472,36 +474,30 @@ function Industries() {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {INDUSTRIES.map((ind, i) => (
-            <Link
+            <motion.div
               key={ind.name}
-              to="/industries/$slug"
-              params={{ slug: slugify(ind.name) }}
-              className="block"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
               data-ocid={`industries.item.${i + 1}`}
+              className="bg-card border border-border rounded-xl overflow-hidden card-glow transition-all duration-300 hover:border-primary/50 group h-full"
             >
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="bg-card border border-border rounded-xl overflow-hidden card-glow transition-all duration-300 hover:border-primary/50 group cursor-pointer h-full"
-              >
-                <img
-                  src={ind.image}
-                  alt={ind.name}
-                  className="w-full h-36 object-cover"
-                  loading="lazy"
-                />
-                <div className="p-5 text-center">
-                  <div className="w-10 h-10 rounded-lg btn-gradient flex items-center justify-center mb-3 text-white mx-auto">
-                    {ind.icon}
-                  </div>
-                  <h3 className="font-bold text-base mb-1 group-hover:text-primary transition-colors">
-                    {ind.name}
-                  </h3>
+              <img
+                src={ind.image}
+                alt={ind.name}
+                className="w-full h-36 object-cover"
+                loading="lazy"
+              />
+              <div className="p-5 text-center">
+                <div className="w-10 h-10 rounded-lg btn-gradient flex items-center justify-center mb-3 text-white mx-auto">
+                  {ind.icon}
                 </div>
-              </motion.div>
-            </Link>
+                <h3 className="font-bold text-base mb-1 transition-colors">
+                  {ind.name}
+                </h3>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -752,7 +748,7 @@ const REFERENCE_PROJECTS = [
   },
   {
     name: "Industrial Motor",
-    desc: "IOT+MR based application to assist field assistant",
+    desc: "IOT+MR based application to assist field technicians",
     image: "/assets/generated/project-industrialmotor.dim_600x380.jpg",
   },
 ];
@@ -845,8 +841,7 @@ function Customers() {
               Our Projects
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              A selection of simulation, training, and visualisation solutions
-              delivered across defence, aerospace, mining, and industry.
+              Some of the VR, AR, MR and VS projects delivered.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
@@ -937,7 +932,7 @@ function Jobs() {
             <p className="text-muted-foreground mb-8 leading-relaxed">
               We don&apos;t have any active openings at the moment, but
               we&apos;d love to hear from you. Send your resume to{" "}
-              <span className="text-orange-500">jobs at simlabs.in</span>.
+              <span className="text-orange-500">jobs at simlabs dot in</span>.
               We&apos;ll reach out when the right opportunity arises.
             </p>
             <a href="mailto:jobs@simlabs.in">
@@ -958,7 +953,13 @@ function Contact() {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    mobile: "",
     company: "",
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    pinzip: "",
     message: "",
   });
   const [isPending, setIsPending] = useState(false);
@@ -1000,7 +1001,18 @@ function Contact() {
       if (!res.ok) throw new Error();
       setIsSuccess(true);
       toast.success("Message sent! We'll be in touch soon.");
-      setForm({ name: "", email: "", company: "", message: "" });
+      setForm({
+        name: "",
+        email: "",
+        mobile: "",
+        company: "",
+        address: "",
+        city: "",
+        state: "",
+        country: "",
+        pinzip: "",
+        message: "",
+      });
       resetCaptcha();
     } catch {
       setIsError(true);
@@ -1085,23 +1097,140 @@ function Contact() {
                   />
                 </div>
               </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="contact-mobile"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5"
+                  >
+                    Mobile Number *
+                  </label>
+                  <Input
+                    id="contact-mobile"
+                    required
+                    type="tel"
+                    placeholder="+91 98765 43210"
+                    value={form.mobile}
+                    onChange={(e) =>
+                      setForm((p) => ({ ...p, mobile: e.target.value }))
+                    }
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+                    data-ocid="contact.input"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="contact-company"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5"
+                  >
+                    Company / Organisation *
+                  </label>
+                  <Input
+                    id="contact-company"
+                    required
+                    placeholder="Acme Corp"
+                    value={form.company}
+                    onChange={(e) =>
+                      setForm((p) => ({ ...p, company: e.target.value }))
+                    }
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+                    data-ocid="contact.input"
+                  />
+                </div>
+              </div>
               <div>
                 <label
-                  htmlFor="contact-company"
+                  htmlFor="contact-address"
                   className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5"
                 >
-                  Company / Organisation
+                  Address
                 </label>
                 <Input
-                  id="contact-company"
-                  placeholder="Acme Corp"
-                  value={form.company}
+                  id="contact-address"
+                  placeholder="123 Street Name, Area"
+                  value={form.address}
                   onChange={(e) =>
-                    setForm((p) => ({ ...p, company: e.target.value }))
+                    setForm((p) => ({ ...p, address: e.target.value }))
                   }
                   className="bg-input border-border text-foreground placeholder:text-muted-foreground"
                   data-ocid="contact.input"
                 />
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="contact-city"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5"
+                  >
+                    City
+                  </label>
+                  <Input
+                    id="contact-city"
+                    placeholder="Bangalore"
+                    value={form.city}
+                    onChange={(e) =>
+                      setForm((p) => ({ ...p, city: e.target.value }))
+                    }
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+                    data-ocid="contact.input"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="contact-state"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5"
+                  >
+                    State
+                  </label>
+                  <Input
+                    id="contact-state"
+                    placeholder="Karnataka"
+                    value={form.state}
+                    onChange={(e) =>
+                      setForm((p) => ({ ...p, state: e.target.value }))
+                    }
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+                    data-ocid="contact.input"
+                  />
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="contact-country"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5"
+                  >
+                    Country
+                  </label>
+                  <Input
+                    id="contact-country"
+                    placeholder="India"
+                    value={form.country}
+                    onChange={(e) =>
+                      setForm((p) => ({ ...p, country: e.target.value }))
+                    }
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+                    data-ocid="contact.input"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="contact-pinzip"
+                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5"
+                  >
+                    PIN / ZIP Code
+                  </label>
+                  <Input
+                    id="contact-pinzip"
+                    placeholder="560001"
+                    value={form.pinzip}
+                    onChange={(e) =>
+                      setForm((p) => ({ ...p, pinzip: e.target.value }))
+                    }
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+                    data-ocid="contact.input"
+                  />
+                </div>
               </div>
               <div>
                 <label
@@ -1248,10 +1377,10 @@ function Contact() {
                 <span className="font-semibold text-foreground">
                   SIMLABS<sup className="text-xs">®</sup>
                 </span>{" "}
-                is headquartered in Bangalore, India and serves clients in India
-                and worldwide across defence, aerospace, automotive,
-                engineering, mining, healthcare, transport and other sectors.
-                Reach out to discuss how we can bring your vision to life.
+                is based in Bangalore, India, serving clients across India and
+                around the world in defence, aerospace, automotive, engineering,
+                mining, healthcare, transport, and other sectors. Get in touch
+                to explore how we can bring your vision to life.
               </p>
             </div>
           </motion.div>
@@ -1277,19 +1406,21 @@ function Footer() {
                 className="h-8 w-auto"
               />
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm leading-relaxed">
               <span className="text-foreground font-semibold">
-                You got the{" "}
+                YOU GOT THE{" "}
               </span>
-              <span className="gradient-text font-semibold">vision</span>
+              <span className="gradient-text font-semibold">VISION</span>
+              <span className="text-foreground font-semibold">
+                {" "}
+                TO REALIZE,
+              </span>
               <br />
-              <span className="text-foreground font-semibold">to realize,</span>
-              <br />
-              <span className="text-foreground font-semibold">We got the </span>
-              <span className="gradient-text font-semibold">mission</span>
+              <span className="text-foreground font-semibold">WE GOT THE </span>
+              <span className="gradient-text font-semibold">MISSION</span>
               <br />
               <span className="text-foreground font-semibold">
-                to visualize.
+                TO VISUALIZE.
               </span>
             </p>
           </div>
@@ -1447,12 +1578,19 @@ const privacyRoute = createRoute({
   component: PrivacyPolicyPage,
 });
 
+const partnersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/partners",
+  component: PartnersPage,
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   serviceRoute,
   productRoute,
   industryRoute,
   privacyRoute,
+  partnersRoute,
 ]);
 
 const router = createRouter({ routeTree });

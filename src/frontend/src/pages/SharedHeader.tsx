@@ -9,7 +9,8 @@ const NAV_LINKS = [
   { label: "Industries", href: "/#industries" },
   { label: "Why SIMLABS?", href: "/#why" },
   { label: "Customers", href: "/#customers" },
-  { label: "Jobs", href: "/#jobs" },
+  { label: "Careers", href: "/#jobs" },
+  { label: "Partners", href: "/partners" },
   { label: "Contact", href: "/#contact" },
 ];
 
