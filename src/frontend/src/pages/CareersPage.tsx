@@ -5,6 +5,7 @@ import { Briefcase, Clock, Mail, MapPin } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import Footer from "./Footer";
+import PageBanner from "./PageBanner";
 import SharedHeader from "./SharedHeader";
 
 const JOB_LISTINGS = [
@@ -140,34 +141,24 @@ export default function CareersPage() {
   return (
     <div className="min-h-screen bg-background">
       <SharedHeader />
-      <main className="container mx-auto px-6 py-20 max-w-6xl">
-        <div className="mb-10">
-          <Link
-            to="/"
-            className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
-          >
-            ← Back to Home
-          </Link>
-        </div>
-
+      <PageBanner
+        image="/assets/generated/banner-careers.dim_1200x400.jpg"
+        badge="Join Us"
+        title="Careers"
+        objectPosition="center"
+      />
+      <main className="container mx-auto px-6 py-12">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="text-center mb-10">
-            <Badge
-              variant="outline"
-              className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
-            >
-              Join Us
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Careers</h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6 mx-auto" />
+          <div className="mb-10">
+            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6" />
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <p className="text-muted-foreground mb-10 leading-relaxed text-center">
+          <div>
+            <p className="text-muted-foreground mb-10 leading-relaxed">
               We&apos;re always looking for talented individuals passionate
               about VR, AR, MR, Visual Simulation, Digital Twin, and AI/ML
               technologies, as well as developing electronic interfaces for
@@ -314,10 +305,10 @@ export default function CareersPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="bg-card border border-border rounded-xl p-10 card-glow text-center"
+              className="bg-card border border-border rounded-xl p-10 card-glow"
               data-ocid="jobs.card"
             >
-              <div className="w-16 h-16 rounded-full btn-gradient flex items-center justify-center mx-auto mb-6 text-white">
+              <div className="w-16 h-16 rounded-full btn-gradient flex items-center justify-center mb-6 text-white">
                 <Mail className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-bold mb-3">

@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link, useParams } from "@tanstack/react-router";
-import { ArrowLeft, CheckCircle2, ChevronRight, Zap } from "lucide-react";
+import { CheckCircle2, ChevronRight, Zap } from "lucide-react";
 import { motion } from "motion/react";
 import { PRODUCTS, PRODUCT_DETAILS, slugify } from "../data";
 import SharedHeader from "./SharedHeader";
@@ -10,10 +10,6 @@ export default function ProductPage() {
   const { slug } = useParams({ from: "/products/$slug" });
   const product = PRODUCTS.find((p) => slugify(p.name) === slug);
   const details = slug ? PRODUCT_DETAILS[slug] : undefined;
-
-  // Determine back link based on search param
-  const searchParams = new URLSearchParams(window.location.search);
-  const fromHome = searchParams.get("from") === "home";
 
   if (!product) {
     return (
@@ -34,38 +30,31 @@ export default function ProductPage() {
   }
 
   const currentYear = new Date().getFullYear();
+  // Normalise details: it might be an array (collab) or object
+  const detailsObj = Array.isArray(details) ? details[0] : details;
 
   return (
     <div className="min-h-screen bg-[oklch(0.09_0.028_247)] text-foreground">
       <SharedHeader />
 
-      {/* Hero - fully visible image */}
+      {/* Hero - ribbon banner */}
       <div className="relative pt-16">
         <div
-          className="relative w-full overflow-hidden"
-          style={{ aspectRatio: "16/9", background: "oklch(0.09 0.028 247)" }}
+          className="relative w-full overflow-hidden flex items-stretch"
+          style={{ height: "280px", background: "oklch(0.09 0.028 247)" }}
         >
-          <img
-            src={product.image}
-            alt={product.name}
-            className="absolute inset-0 w-full h-full"
-            style={{
-              objectFit: "contain",
-              background: "oklch(0.09 0.028 247)",
-            }}
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-t from-[oklch(0.09_0.028_247)] via-[oklch(0.09_0.028_247/0.5)] to-transparent"
-            style={{ position: "absolute", inset: 0 }}
-          />
-          <div className="absolute bottom-0 left-0 right-0 px-6 pb-10 container mx-auto">
+          {/* Dark overlay full background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/20 z-10" />
+
+          {/* Left: Text content */}
+          <div className="relative z-20 flex flex-col justify-center px-8 md:px-16 w-full md:w-[60%]">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
               <nav
-                className="flex items-center gap-2 text-sm text-muted-foreground mb-3"
+                className="flex items-center gap-2 text-sm text-muted-foreground mb-2"
                 aria-label="Breadcrumb"
               >
                 <a href="/" className="hover:text-primary transition-colors">
@@ -83,37 +72,27 @@ export default function ProductPage() {
               </nav>
               <Badge
                 variant="outline"
-                className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
+                className="mb-2 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
               >
-                Software Products
+                Product
               </Badge>
-              <h1 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight gradient-text">
+              <h1 className="text-2xl md:text-4xl font-extrabold uppercase tracking-tight gradient-text">
                 {product.name}
               </h1>
             </motion.div>
           </div>
-        </div>
-      </div>
 
-      {/* Back link */}
-      <div className="container mx-auto px-6 py-4">
-        {fromHome ? (
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-            data-ocid="product.back_link"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Home
-          </Link>
-        ) : (
-          <Link
-            to="/products"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-            data-ocid="product.back_link"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Products
-          </Link>
-        )}
+          {/* Right: Image */}
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-[45%]">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover object-center"
+            />
+            {/* Fade from left to blend with text area */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
+          </div>
+        </div>
       </div>
 
       {/* Content */}
@@ -139,7 +118,7 @@ export default function ProductPage() {
               </div>
             </motion.section>
 
-            {details && (
+            {detailsObj && (
               <motion.section
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -147,7 +126,7 @@ export default function ProductPage() {
               >
                 <h2 className="text-2xl font-bold mb-6">Key Features</h2>
                 <ul className="space-y-3">
-                  {details.features.map((f) => (
+                  {detailsObj.features.map((f) => (
                     <li key={f} className="flex items-start gap-3">
                       <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                       <span className="text-muted-foreground leading-relaxed">
@@ -159,7 +138,7 @@ export default function ProductPage() {
               </motion.section>
             )}
 
-            {details && (
+            {detailsObj && (
               <motion.section
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -169,7 +148,7 @@ export default function ProductPage() {
                   Technical Highlights
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  {details.highlights.map((h) => (
+                  {detailsObj.highlights.map((h) => (
                     <div
                       key={h}
                       className="bg-card border border-border rounded-lg p-4 flex items-center gap-3"
@@ -211,21 +190,19 @@ export default function ProductPage() {
             >
               <h3 className="font-bold text-base mb-4">Other Products</h3>
               <ul className="space-y-2">
-                {PRODUCTS.filter((p) => p.name !== product.name)
-                  .slice(0, 6)
-                  .map((p) => (
-                    <li key={p.name}>
-                      <Link
-                        to="/products/$slug"
-                        params={{ slug: slugify(p.name) }}
-                        className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
-                        data-ocid="product.link"
-                      >
-                        <ChevronRight className="w-4 h-4" />
-                        {p.name}
-                      </Link>
-                    </li>
-                  ))}
+                {PRODUCTS.filter((p) => p.name !== product.name).map((p) => (
+                  <li key={p.name}>
+                    <Link
+                      to="/products/$slug"
+                      params={{ slug: slugify(p.name) }}
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                      data-ocid="product.link"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                      {p.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </motion.div>
           </div>

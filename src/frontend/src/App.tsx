@@ -14,15 +14,15 @@ import {
   Download,
   Menu,
   Shield,
-  Star,
   Users,
   X,
   Zap,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { CUSTOMER_LOGOS } from "./appData";
 import CookieBanner from "./components/CookieBanner";
-import { INDUSTRIES, PRODUCTS, SERVICES, slugify } from "./data";
+import { INDUSTRIES, PRODUCTS, SERVICES } from "./data";
 import CareersPage from "./pages/CareersPage";
 import ContactPage from "./pages/ContactPage";
 import CustomersPage from "./pages/CustomersPage";
@@ -44,8 +44,8 @@ const NAV_LINKS = [
   { label: "Services", to: "/services" },
   { label: "Products", to: "/products" },
   { label: "Industries", to: "/industries" },
-  { label: "Customers", to: "/customers" },
   { label: "Projects", to: "/projects" },
+  { label: "Customers", to: "/customers" },
   { label: "Partners", to: "/partners" },
   { label: "Careers", to: "/careers" },
   { label: "Contacts", to: "/contact" },
@@ -215,7 +215,7 @@ function Hero() {
       </div>
 
       <div className="container mx-auto px-6 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-[2fr_3fr] gap-8 items-center">
           {/* Left text */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -239,19 +239,22 @@ function Hero() {
               <br />
               <span className="text-foreground">TO VISUALIZE.</span>
             </h1>
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-xl">
+            <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-xl">
               Delivering advanced Virtual Reality (VR), Augmented Reality (AR),
-              Mixed Reality (MR), Visual Simulation (VS), Digital Twins (DT) and
-              Artificial Intelligence (AI) solutions across industries including
-              aerospace, defence, automotive, engineering, mining, healthcare,
-              manufacturing, transport, and beyond.
+              Mixed Reality (MR), Visual Simulation (VS), Digital Twins (DT),
+              and Artificial Intelligence (AI) solutions across industries such
+              as aerospace, defence, automotive, engineering, energy / oil &amp;
+              gas / mining, healthcare / pharmaceuticals, manufacturing, and
+              transport. Our solutions empower organizations with cutting-edge,
+              visual technologies for training, technical assistance, product
+              experience, design studies, sales and marketing, and beyond.
             </p>
             <div className="flex flex-wrap gap-4">
               <button
                 type="button"
                 data-ocid="hero.primary_button"
                 onClick={() => {
-                  const el = document.getElementById("services-section");
+                  const el = document.getElementById("what-we-offer");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 }}
               >
@@ -344,13 +347,21 @@ function Hero() {
   );
 }
 
-// ─── About banner ─────────────────────────────────────────────────────────
-function AboutBanner() {
+// ─── What We Offer Section ───────────────────────────────────────────────────
+function WhatWeOffer() {
   return (
-    <section className="py-16 bg-[oklch(0.11_0.028_247)] border-y border-border section-fade">
+    <section id="what-we-offer" className="py-14 section-fade">
       <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-base md:text-lg leading-relaxed text-muted-foreground">
+        <div className="mb-10">
+          <Badge
+            variant="outline"
+            className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
+          >
+            Our Offerings
+          </Badge>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">What We Offer</h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6" />
+          <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
             <span className="text-foreground font-semibold">
               Simlabs Software LLP
             </span>
@@ -359,173 +370,158 @@ function AboutBanner() {
             <sup className="text-xs text-muted-foreground">®</sup>
             <span className="text-muted-foreground font-semibold">)</span> is a
             visual technology firm with over 13 years of experience, delivering
-            reliable, high-quality, and cost-effective solutions. Led by a
-            management team with over 21 years of experience in visual
-            technology. We specialize in VR, AR, MR, Visual Simulation, Digital
-            Twins, and AI, serving a wide range of industries with advanced,
-            practical, and scalable solutions.
+            reliable, high-quality, and cost-effective solutions. The company is
+            led by a management team with over 21 years of experience in visual
+            technologies. We specialize in VR, AR, MR, Visual Simulation,
+            Digital Twins, and AI, serving a wide range of industries with
+            advanced and scalable solutions for operational, maintenance, and
+            safety training; field and remote technical assistance; product
+            visualization and experience; design and ergonomics studies; and
+            sales and marketing, and numerous other evolving application areas.
+            By transforming complex processes into intuitive visual experiences,
+            we help teams enhance skills, improve efficiency, boost
+            productivity, and achieve higher levels of accuracy and safety.
           </p>
         </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Summary: Services ───────────────────────────────────────────────────
-function ServicesSummary() {
-  return (
-    <section id="services-section" className="py-14 section-fade">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-8">
-          <Badge
-            variant="outline"
-            className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
+        <div className="grid md:grid-cols-3 gap-8 items-stretch">
+          {/* Technology Services Column */}
+          <Link
+            to="/services"
+            className="group bg-card border-2 border-border rounded-xl p-6 flex flex-col cursor-pointer transition-all duration-300 hover:border-primary no-underline"
+            style={{ textDecoration: "none" }}
           >
-            What We Do
-          </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Our Technology Services
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            End-to-end visual technology solutions tailored for industry
-            requirements.
-          </p>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES.map((s) => (
-            <Link
-              key={s.title}
-              to="/services/$slug"
-              params={{ slug: slugify(s.title) }}
-              search={(() => ({ from: "home" })) as any}
-              className="flex-shrink-0 bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 group"
-            >
-              <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
-                <img
-                  src={s.image}
-                  alt={s.title}
-                  className="absolute inset-0 w-full h-full object-contain bg-[oklch(0.08_0.02_247)]"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-4">
-                <div className="w-9 h-9 rounded-lg btn-gradient flex items-center justify-center mb-3 text-white">
-                  {s.icon}
-                </div>
-                <h3 className="font-bold text-sm mb-1 group-hover:text-primary transition-colors leading-tight">
-                  {s.title}
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {s.desc}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+            <h3 className="text-base font-bold mb-4 text-foreground uppercase tracking-wide">
+              Technology Services
+            </h3>
+            <div className="flex-1">
+              {SERVICES.map((s) => (
+                <WhatWeOfferTile key={s.title} label={s.title} desc={s.desc} />
+              ))}
+            </div>
+          </Link>
 
-// ─── Summary: Products ───────────────────────────────────────────────────
-function ProductsSummary() {
-  return (
-    <section className="py-14 bg-[oklch(0.11_0.028_247)] border-y border-border section-fade">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-8">
-          <Badge
-            variant="outline"
-            className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
+          {/* Products Column */}
+          <Link
+            to="/products"
+            className="group bg-card border-2 border-border rounded-xl p-6 flex flex-col cursor-pointer transition-all duration-300 hover:border-primary no-underline"
+            style={{ textDecoration: "none" }}
           >
-            PRODUCTS
-          </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Products</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Professional visual technology solutions built with world-class
-            technology.
-          </p>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {PRODUCTS.map((p) => (
-            <Link
-              key={p.name}
-              to="/products/$slug"
-              params={{ slug: slugify(p.name) }}
-              search={(() => ({ from: "home" })) as any}
-              className="flex-shrink-0 bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 group"
-            >
-              <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  className="absolute inset-0 w-full h-full object-contain bg-[oklch(0.08_0.02_247)]"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-4 flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg btn-gradient flex items-center justify-center flex-shrink-0 text-white">
-                  {p.icon}
-                </div>
-                <div>
-                  <h3 className="font-bold text-sm mb-1 group-hover:text-primary transition-colors">
-                    {p.name}
-                  </h3>
-                  <p className="text-xs text-muted-foreground line-clamp-2">
-                    {p.desc}
-                  </p>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Summary: Industries ────────────────────────────────────────────────
-function IndustriesSummary() {
-  return (
-    <section className="py-14 section-fade">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-8">
-          <Badge
-            variant="outline"
-            className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
-          >
-            Sectors
-          </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Industries We Serve
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Our visual technology solutions serve a wide range of industries
-            worldwide.
-          </p>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {INDUSTRIES.map((ind) => (
-            <div
-              key={ind.name}
-              className="flex-shrink-0 bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 group"
-            >
-              <div className="relative w-full" style={{ aspectRatio: "4/3" }}>
-                <img
-                  src={ind.image}
-                  alt={ind.name}
-                  className="absolute inset-0 w-full h-full object-contain bg-[oklch(0.08_0.02_247)]"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-3 text-center">
-                <div className="w-8 h-8 rounded-lg btn-gradient flex items-center justify-center mb-2 text-white mx-auto">
-                  {ind.icon}
-                </div>
-                <h3 className="font-bold text-xs">{ind.name}</h3>
+            <h3 className="text-base font-bold mb-4 text-foreground uppercase tracking-wide">
+              Our Products
+            </h3>
+            <div className="flex-1">
+              <div className="grid grid-cols-2 gap-x-3">
+                {PRODUCTS.map((p) => (
+                  <WhatWeOfferTile key={p.name} label={p.name} desc={p.desc} />
+                ))}
               </div>
             </div>
-          ))}
+          </Link>
+
+          {/* Industries Column */}
+          <Link
+            to="/industries"
+            className="group bg-card border-2 border-border rounded-xl p-6 flex flex-col cursor-pointer transition-all duration-300 hover:border-primary no-underline"
+            style={{ textDecoration: "none" }}
+          >
+            <h3 className="text-base font-bold mb-4 text-foreground uppercase tracking-wide">
+              Industries We Serve
+            </h3>
+            <div className="flex-1">
+              <div className="grid grid-cols-2 gap-x-3">
+                {INDUSTRIES.map((ind) => (
+                  <WhatWeOfferTile key={ind.name} label={ind.name} desc="" />
+                ))}
+              </div>
+            </div>
+          </Link>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function WhatWeOfferTile({ label, desc }: { label: string; desc: string }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      className="relative mb-2"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
+    >
+      <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-background/40 border border-border/60 hover:border-primary/60 hover:bg-primary/5 transition-all duration-200 cursor-default">
+        <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+        <span className="text-xs font-semibold uppercase tracking-wide text-foreground/85 leading-tight">
+          {label}
+        </span>
+      </div>
+      {hovered && desc && (
+        <div
+          className="absolute z-50 left-0 top-full mt-1 w-64 bg-popover border border-border rounded-lg p-3 shadow-xl text-xs text-muted-foreground leading-relaxed pointer-events-none"
+          style={{ minWidth: "220px" }}
+        >
+          {desc}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Customer Logo Section ─────────────────────────────────────────────────
+function CustomerLogoSection() {
+  return (
+    <section className="py-14 section-fade bg-[oklch(0.11_0.028_247)] border-y border-border">
+      <div className="container mx-auto px-6">
+        <div className="mb-8">
+          <h2 className="text-xl md:text-2xl font-bold mb-4">
+            SIMLABS helps organizations harness the power of VR, AR, MR, and
+            Visual Simulation technologies.
+          </h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6" />
+        </div>
+        {/* Logo grid — full-width scrolling marquee */}
+        <div className="overflow-hidden mb-6">
+          <div
+            className="flex animate-marquee gap-4"
+            style={{ width: "max-content" }}
+          >
+            {[...CUSTOMER_LOGOS, ...CUSTOMER_LOGOS].map((c, i) => (
+              <div
+                key={`${c.name}-${i}`}
+                className="flex-shrink-0 flex flex-col items-center gap-2"
+                style={{ width: "120px" }}
+              >
+                <div
+                  className="w-full flex items-center justify-center rounded-lg border border-gray-200 overflow-hidden"
+                  style={{
+                    height: "80px",
+                    padding: "8px",
+                    backgroundColor: "#ffffff",
+                  }}
+                >
+                  <img
+                    src={c.logo}
+                    alt={c.name}
+                    className="object-contain max-h-full max-w-full"
+                    loading="lazy"
+                  />
+                </div>
+                <p
+                  className="text-xs font-bold text-center uppercase tracking-wide text-foreground/80 leading-tight"
+                  style={{ fontSize: "10px" }}
+                >
+                  {c.name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="text-xs text-muted-foreground/60 italic mt-2">
+          All logos and trademarks displayed are the property of their
+          respective owners and are used for identification purposes only.
+        </p>
       </div>
     </section>
   );
@@ -554,7 +550,7 @@ function WhySimlabsSummary() {
   return (
     <section className="py-14 bg-[oklch(0.11_0.028_247)] border-y border-border section-fade">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-8">
+        <div className="mb-8">
           <Badge
             variant="outline"
             className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
@@ -564,7 +560,8 @@ function WhySimlabsSummary() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Why Choose <span className="gradient-text">SIMLABS</span>?
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6" />
+          <p className="text-sm text-muted-foreground max-w-2xl">
             Three pillars that define our commitment to excellence and client
             success.
           </p>
@@ -578,9 +575,9 @@ function WhySimlabsSummary() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.12 }}
               data-ocid={`why.item.${i + 1}`}
-              className="bg-card border border-border rounded-xl p-8 text-center card-glow transition-all duration-300 hover:border-primary/50 group"
+              className="bg-card border border-border rounded-xl p-8 card-glow transition-all duration-300 hover:border-primary/50 group"
             >
-              <div className="w-14 h-14 rounded-full btn-gradient flex items-center justify-center mx-auto mb-5 text-white">
+              <div className="w-14 h-14 rounded-full btn-gradient flex items-center justify-center mb-5 text-white">
                 {w.icon}
               </div>
               <h3 className="font-bold text-xl mb-3 group-hover:text-primary transition-colors">
@@ -601,7 +598,7 @@ function WhySimlabsSummary() {
 function ContactCTA() {
   return (
     <section className="py-14 bg-[oklch(0.11_0.028_247)] border-y border-border section-fade">
-      <div className="container mx-auto px-6 text-center">
+      <div className="container mx-auto px-6">
         <Badge
           variant="outline"
           className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
@@ -609,7 +606,8 @@ function ContactCTA() {
           Let&apos;s Talk
         </Badge>
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
-        <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+        <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6" />
+        <p className="text-muted-foreground mb-8">
           Ready to transform your simulation, training, visualization, design,
           technical assistance, and marketing capabilities? Connect with the{" "}
           <span className="gradient-text">SIMLABS</span>
@@ -638,10 +636,8 @@ function AppHome() {
       <Header />
       <main>
         <Hero />
-        <AboutBanner />
-        <ServicesSummary />
-        <ProductsSummary />
-        <IndustriesSummary />
+        <WhatWeOffer />
+        <CustomerLogoSection />
         <WhySimlabsSummary />
         <ContactCTA />
       </main>

@@ -4,6 +4,7 @@ import { ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import Footer from "./Footer";
+import PageBanner from "./PageBanner";
 import SharedHeader from "./SharedHeader";
 
 const TECHNOLOGY_PARTNERS = [
@@ -41,18 +42,15 @@ export default function PartnersPage() {
   return (
     <div className="min-h-screen bg-background">
       <SharedHeader />
+      <PageBanner
+        image="/assets/generated/banner-partners.dim_1200x400.jpg"
+        badge="Partnerships"
+        title="Our Partners"
+        objectPosition="center"
+      />
 
-      <main className="container mx-auto px-6 py-20 max-w-6xl">
+      <main className="container mx-auto px-6 py-12">
         {/* Back link */}
-        <div className="mb-10">
-          <Link
-            to="/"
-            className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
-          >
-            ← Back to Home
-          </Link>
-        </div>
-
         {/* Development Partners */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
@@ -60,7 +58,7 @@ export default function PartnersPage() {
           transition={{ duration: 0.6 }}
           className="mb-20"
         >
-          <div className="mb-8 text-center">
+          <div className="mb-8">
             <Badge
               variant="outline"
               className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
@@ -70,8 +68,8 @@ export default function PartnersPage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Development Partners
             </h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6 mx-auto" />
-            <p className="text-muted-foreground leading-relaxed max-w-4xl mb-4 mx-auto">
+            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6" />
+            <p className="text-muted-foreground leading-relaxed mb-4">
               We collaborate with enterprises, system integrators, and service
               providers in visual content, visual application, and simulator
               development to deliver scalable, high-quality, and domain-specific
@@ -81,14 +79,14 @@ export default function PartnersPage() {
               solutions for a wider customer base, while reducing development
               time and leveraging cost-effective offshore execution.
             </p>
-            <p className="text-muted-foreground leading-relaxed max-w-4xl mx-auto">
+            <p className="text-muted-foreground leading-relaxed">
               We are currently exploring structured partnerships with firms
               where we can operate as a white-label offshore execution partner,
               extending delivery capacity without adding internal headcount.
             </p>
           </div>
 
-          <div className="bg-card border border-border rounded-xl p-8 text-center">
+          <div className="bg-card border border-border rounded-xl p-8">
             <p className="text-muted-foreground text-sm">
               Interested in becoming a development partner? Reach out to us via
               the{" "}
@@ -106,7 +104,7 @@ export default function PartnersPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
         >
-          <div className="mb-8 text-center">
+          <div className="mb-8">
             <Badge
               variant="outline"
               className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
@@ -116,8 +114,8 @@ export default function PartnersPage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Technology Partners
             </h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6 mx-auto" />
-            <p className="text-muted-foreground leading-relaxed max-w-4xl mx-auto">
+            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full mb-6" />
+            <p className="text-muted-foreground leading-relaxed">
               We collaborate with leading global technology providers as an
               authorized distributor / reseller and technical support partner in
               India. We bring advanced visual simulation technologies to

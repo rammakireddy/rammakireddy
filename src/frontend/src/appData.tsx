@@ -19,7 +19,7 @@ export const TESTIMONIALS = [
   {
     quote:
       "SIMLABS delivered an impressive VR solution with excellent visual quality, performance, and intuitive navigation. Despite tight timelines, the team demonstrated strong expertise, clear understanding of requirements, and timely delivery. We look forward to continuing our collaboration on future projects.",
-    org: "L&T",
+    org: "LARSEN & TOUBRO",
   },
   {
     quote:
@@ -49,26 +49,26 @@ export const TESTIMONIALS = [
 ];
 
 export const CUSTOMER_LOGOS = [
-  { name: "INDIAN AIR FORCE, PUNE" },
-  { name: "DRDO" },
-  { name: "ISRO" },
-  { name: "NAL" },
-  { name: "ECIL" },
-  { name: "AXISCADES" },
-  { name: "VOLVO" },
-  { name: "GOOGLE" },
-  { name: "ALSTOM" },
-  { name: "EPIROC" },
-  { name: "Atlas Copco" },
-  { name: "L&T Defence" },
-  { name: "CAE" },
-  { name: "ABB" },
-  { name: "Cyient" },
-  { name: "Alpha Design Technologies" },
-  { name: "Applied Materials" },
-  { name: "Indian Army" },
-  { name: "INDIAN AIR FORCE, BANGALORE" },
-  { name: "ANIMEDIA" },
+  { name: "INDIAN AIR FORCE, PUNE", logo: "/assets/logos/IAF.png" },
+  { name: "DRDO", logo: "/assets/logos/DRDO.png" },
+  { name: "ISRO", logo: "/assets/logos/ISRO.png" },
+  { name: "NAL", logo: "/assets/logos/NAL.png" },
+  { name: "ECIL", logo: "/assets/logos/ECIL.png" },
+  { name: "AXISCADES", logo: "/assets/logos/AXISCADES.png" },
+  { name: "VOLVO", logo: "/assets/logos/VOLVO.png" },
+  { name: "GOOGLE", logo: "/assets/logos/GOOGLE.png" },
+  { name: "ALSTOM", logo: "/assets/logos/ALSTOM.png" },
+  { name: "EPIROC", logo: "/assets/logos/EPIROC.png" },
+  { name: "ATLAS COPCO", logo: "/assets/logos/ATLASCOPCO.png" },
+  { name: "LARSEN & TOUBRO", logo: "/assets/logos/L&T.png" },
+  { name: "CAE", logo: "/assets/logos/CAE.png" },
+  { name: "ABB", logo: "/assets/logos/ABB.png" },
+  { name: "CYIENT", logo: "/assets/logos/cyient.png" },
+  { name: "ALPHA DESIGN TECHNOLOGIES", logo: "/assets/logos/APHA.png" },
+  { name: "APPLIED MATERIALS", logo: "/assets/logos/appliedmaterials.png" },
+  { name: "INDIAN ARMY", logo: "/assets/logos/army.png" },
+  { name: "INDIAN AIR FORCE, BANGALORE", logo: "/assets/logos/IAF.png" },
+  { name: "ANIMEDIA", logo: "/assets/logos/animedia.png" },
 ];
 
 export const REFERENCE_PROJECTS = [

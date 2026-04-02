@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link, useParams } from "@tanstack/react-router";
-import { ArrowLeft, CheckCircle2, ChevronRight } from "lucide-react";
+import { CheckCircle2, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
 import { SERVICES, SERVICE_DETAILS, slugify } from "../data";
 import SharedHeader from "./SharedHeader";
@@ -10,10 +10,6 @@ export default function ServicePage() {
   const { slug } = useParams({ from: "/services/$slug" });
   const service = SERVICES.find((s) => slugify(s.title) === slug);
   const details = slug ? SERVICE_DETAILS[slug] : undefined;
-
-  // Determine back link based on referrer or search param
-  const searchParams = new URLSearchParams(window.location.search);
-  const fromHome = searchParams.get("from") === "home";
 
   if (!service) {
     return (
@@ -39,33 +35,24 @@ export default function ServicePage() {
     <div className="min-h-screen bg-[oklch(0.09_0.028_247)] text-foreground">
       <SharedHeader />
 
-      {/* Hero - fully visible image */}
+      {/* Hero - ribbon banner */}
       <div className="relative pt-16">
         <div
-          className="relative w-full overflow-hidden"
-          style={{ aspectRatio: "16/9", background: "oklch(0.09 0.028 247)" }}
+          className="relative w-full overflow-hidden flex items-stretch"
+          style={{ height: "280px", background: "oklch(0.09 0.028 247)" }}
         >
-          <img
-            src={service.image}
-            alt={service.title}
-            className="absolute inset-0 w-full h-full"
-            style={{
-              objectFit: "contain",
-              background: "oklch(0.09 0.028 247)",
-            }}
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-t from-[oklch(0.09_0.028_247)] via-[oklch(0.09_0.028_247/0.5)] to-transparent"
-            style={{ position: "absolute", inset: 0 }}
-          />
-          <div className="absolute bottom-0 left-0 right-0 px-6 pb-10 container mx-auto">
+          {/* Dark overlay full background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/20 z-10" />
+
+          {/* Left: Text content */}
+          <div className="relative z-20 flex flex-col justify-center px-8 md:px-16 w-full md:w-[60%]">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
               <nav
-                className="flex items-center gap-2 text-sm text-muted-foreground mb-3"
+                className="flex items-center gap-2 text-sm text-muted-foreground mb-2"
                 aria-label="Breadcrumb"
               >
                 <a href="/" className="hover:text-primary transition-colors">
@@ -83,37 +70,27 @@ export default function ServicePage() {
               </nav>
               <Badge
                 variant="outline"
-                className="mb-3 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
+                className="mb-2 border-primary/40 text-primary bg-primary/10 text-xs tracking-widest uppercase"
               >
                 Technology Service
               </Badge>
-              <h1 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight">
+              <h1 className="text-2xl md:text-4xl font-extrabold uppercase tracking-tight">
                 {service.title}
               </h1>
             </motion.div>
           </div>
-        </div>
-      </div>
 
-      {/* Back link */}
-      <div className="container mx-auto px-6 py-4">
-        {fromHome ? (
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-            data-ocid="service.back_link"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Home
-          </Link>
-        ) : (
-          <Link
-            to="/services"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-            data-ocid="service.back_link"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Services
-          </Link>
-        )}
+          {/* Right: Image */}
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-[45%]">
+            <img
+              src={service.image}
+              alt={service.title}
+              className="w-full h-full object-cover object-center"
+            />
+            {/* Fade from left to blend with text area */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
+          </div>
+        </div>
       </div>
 
       {/* Content */}
